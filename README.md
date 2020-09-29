@@ -9,4 +9,4 @@ There are three main scripts. Each of these scripts demonstrate the compares the
 
 The rest of the scripts are supporting functions. Simply run the scripts to get results. 
 
-For details regarding our robust localization method, please refer to our paper on arxiv: 'Robust Localization in Wireless Networks from Corrupted Signals', Muhammad Osama, Dave Zachariah and Peter Stoica.
+For details regarding the robust localization method, please refer to our paper on arxiv: 'Robust Localization in Wireless Networks from Corrupted Signals', Muhammad Osama, Dave Zachariah and Peter Stoica.
