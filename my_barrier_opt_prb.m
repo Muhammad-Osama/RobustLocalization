@@ -40,8 +40,22 @@ while(mu>mu_l)
     it = it + 1;
     %objective
     obj = f(p); 
-    %Solve Newton-iteration    
-    dr = (H(p,lamI))\-(grd(p,nu,lamI,mu));
+    %Solve Newton-iteration
+    %use Schurs complement method to compute the inverse of the Hessian
+    J = H(p,lamI);
+    %Extract blocks of matrices J = [A B; C D]
+    A = J(1:n,1:n); B = J(1:n,n+1:end); C = J(n+1:end,1:n); D = J(n+1:end,n+1:end);
+    dgA = diag(A);
+    %Compute the schur complement w.r.t. A
+    schurA = (D - (C.*(1./dgA')) * B);
+    % inverse of schur complement
+    schurAinv = schurA\eye(size(schurA));
+    %Form the inverse of the Hessian
+    Jinv = [diag(1./dgA) + ((1./dgA).*B) * (schurA \ (C.*(1./dgA'))) -((1./dgA).*B) * schurAinv;
+        -(schurA \ (C.*(1./dgA'))) schurAinv];
+    
+    %dr = (H(p,lamI))\-(grd(p,nu,lamI,mu));
+    dr = Jinv * (-(grd(p,nu,lamI,mu)));
     %separate the different parts
     dp = dr(1:n); dnu = dr(n+1); dlamI = dr(n+2:end);
     %find step size
